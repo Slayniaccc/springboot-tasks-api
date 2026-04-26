@@ -3,6 +3,7 @@ package com.example.demo;
 import java.util.ArrayList;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,5 +23,14 @@ public Task postTask(@RequestBody Task task) {
     nextId++;
     tasks.add(task);
     return task;
+}
+@GetMapping("/tasks/{id}")
+public Task getTaskById(@PathVariable int id) {
+    for (Task task : tasks) {
+        if (task.getId() == id) {
+            return task;
+        }
+    }
+    return null;
 }
 }
