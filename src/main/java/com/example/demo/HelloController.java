@@ -2,6 +2,7 @@ package com.example.demo;
 
 import java.util.ArrayList;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,4 +34,16 @@ public Task getTaskById(@PathVariable int id) {
     }
     return null;
 }
+@DeleteMapping("/tasks/{id}")
+public Task deleteId(@PathVariable int id){
+   for(int i = 0; i < tasks.size(); i ++){
+    if(tasks.get(i).getId() == id){
+        return tasks.remove(i);
+    }
+   }
+   return null;
 }
+}
+
+
+
