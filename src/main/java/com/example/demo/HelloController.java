@@ -43,7 +43,21 @@ public Task deleteId(@PathVariable int id){
    }
    return null;
 }
-}
+@PutMapping("/tasks/{id}")
+public Task putId(@RequestBody Task updatedTask, @PathVariable  int id){
+  for(Task task : tasks){
+    if (task.getId() == id){
+          task.setName(updatedTask.getName());
+            task.setTask(updatedTask.getTask());
+            task.setCompleted(updatedTask.isCompleted());
+            return task;
+    }
+  }
+  return null;
+    }
+  }
+ 
+
 
 
 
