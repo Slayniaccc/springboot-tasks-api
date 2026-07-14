@@ -19,20 +19,18 @@ int nextId = 1;
         return tasks;
     }
     @PostMapping("/tasks")
-public Task postTask(@RequestBody Task task) {
-    task.setId(nextId);
-    nextId++;
-    tasks.add(task);
-    return task;
+public ResponseEntity<Task> createTask(@RequestBody Task task) {
+    Task savedTask = taskService.save(task); 
+    return ResponseEntity.status(HttpStatus.CREATED).body(savedTask);
 }
+//returns 404 if not found
 @GetMapping("/tasks/{id}")
-public Task getTaskById(@PathVariable int id) {
-    for (Task task : tasks) {
-        if (task.getId() == id) {
-            return task;
-        }
+public ResponseEntity<Task> getTask(@PathVariable Long id) {
+    Task task = taskService.findById(id);
+    if (task == null) {
+        return ResponseEntity.notFound().build();
     }
-    return null;
+    return ResponseEntity.ok(task);
 }
 @DeleteMapping("/tasks/{id}")
 public Task deleteId(@PathVariable int id){
