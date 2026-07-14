@@ -19,7 +19,7 @@ int nextId = 1;
         return tasks;
     }
     @PostMapping("/tasks")
-public ResponseEntity<Task> createTask(@RequestBody Task task) {
+public ResponseEntity<Task> createTask(@Valid @RequestBody Task task) {
     Task savedTask = taskService.save(task); 
     return ResponseEntity.status(HttpStatus.CREATED).body(savedTask);
 }
@@ -28,9 +28,10 @@ public ResponseEntity<Task> createTask(@RequestBody Task task) {
 public ResponseEntity<Task> getTask(@PathVariable Long id) {
     Task task = taskService.findById(id);
     if (task == null) {
-        return ResponseEntity.notFound().build();
+         return ResponseEntity.ok(task);
     }
-    return ResponseEntity.ok(task);
+    return ResponseEntity.notFound().build();
+
 }
 @DeleteMapping("/tasks/{id}")
 public Task deleteId(@PathVariable int id){
@@ -42,16 +43,16 @@ public Task deleteId(@PathVariable int id){
    return null;
 }
 @PutMapping("/tasks/{id}")
-public Task putId(@RequestBody Task updatedTask, @PathVariable  int id){
+public ResponseEntity<Task> updateTask(@PathVariable int id, @Valid @RequestBody Task updatedTask){
   for(Task task : tasks){
     if (task.getId() == id){
           task.setName(updatedTask.getName());
             task.setTask(updatedTask.getTask());
             task.setCompleted(updatedTask.isCompleted());
-            return task;
+            return responseEntity.ok(task);
     }
   }
-  return null;
+ return ResponseEntity.notFound().build();
     }
   }
  
